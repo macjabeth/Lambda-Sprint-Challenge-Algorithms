@@ -92,12 +92,40 @@ class SortingRobot:
         """
         return self._light == "ON"
 
+    def loopIn(self, direction):
+        # the robot needs to grab the current item
+        self.swap_item()
+        # and we need to reference the next element position for comparison
+        self.move_right() if direction == 'r' else self.move_left()
+        # is the current value we're holding greater than the next value?
+        if self.compare_item() == (direction == 'r' and 1 or -1):
+            # if so, we need to swap the values
+            self.swap_item()
+            self.set_light_on()
+        # otherwise... we need to place the item back down
+        self.move_left() if direction == 'r' else self.move_right()
+        self.swap_item()
+        # and then we move onto the next index...
+        self.move_right() if direction == 'r' else self.move_left()
+
     def sort(self):
         """
         Sort the robot's list.
         """
-        # Fill this out
-        pass
+        # These methods seem eerily similar to the bubble sort method
+        # So that's what I'll try and implement here
+        # STEPS:
+        # The light represents our Go Ahead (loop) status
+        self.set_light_on()
+        # while the light is on, let's keep sorting...
+        while self.light_is_on():
+            self.set_light_off()
+
+            while self.can_move_right():
+                self.loopIn('r')
+
+            while self.can_move_left():
+                self.loopIn('l')
 
 
 if __name__ == "__main__":
