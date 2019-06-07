@@ -40,3 +40,21 @@ c)  def bunnyEars(bunnies):
 ```
 
 Recursive functions make my mind bleed a little, but I believe the runtime complexity of this snippet is linear, or `O(n)`. This is the case because it executes once every time it decrements the value of `bunnies`, and it decrements the value until it reaches 0, meaning the function is called recursively `bunnies` times.
+
+## Exercise II
+
+So, we have a building of variable length `n`, and eggs are broken if they're dropped from a floor `f` or higher... however, we're only concerned with the number of *dropped* eggs, not whether they're cracked or not.
+
+I'll assume then that we're only taking one input here - `n` for the number of stories in the building.
+
+And for our output, we need to return `f` - the floor that *minimises* the amount of dropped eggs.
+
+At what floor could we throw it off of where we minimise the amount of eggs that are dropped? Perhaps this seems like too simple a solution... but if we always returned the first floor, then we'd minimize the amount of eggs that could be dropped by `n-1`. It would save us from throwing eggs off every floor above it. This would have a runtime complexity of O(1) because we'd only have to run one operation regardless of input size.
+
+```
+def getEggingFloor(n):
+    # Ground Floor will just return false
+    if n == 0: return False
+    # return the first floor which minimises the number of eggs that could be dropped
+    return 1
+```
