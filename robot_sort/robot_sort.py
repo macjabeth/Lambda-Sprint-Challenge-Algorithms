@@ -92,12 +92,42 @@ class SortingRobot:
         """
         return self._light == "ON"
 
+    def traverse(self, direction):
+        # the robot needs to grab the current item
+        self.swap_item()
+        # and we need to reference the next element position for comparison
+        self.move_right() if direction == '>' else self.move_left()
+        # is the current value we're holding greater than the next value?
+        if self.compare_item() == (direction == '>' and 1 or -1):
+            # if so, we need to swap the values
+            self.swap_item()
+            # let our loop know to keep going
+            self.set_light_on()
+        # whether or not we swapped, we still need to place the item back down
+        self.move_left() if direction == '>' else self.move_right()
+        self.swap_item()
+        # and then we move onto the next index...
+        self.move_right() if direction == '>' else self.move_left()
+
     def sort(self):
         """
         Sort the robot's list.
         """
-        # Fill this out
-        pass
+        # These methods seem eerily similar to the bubble sort method
+        # So that's what I'll try and implement here
+        # The light represents our Go Ahead (loop) status
+        self.set_light_on()
+        # while the light is on, let's keep sorting...
+        while self.light_is_on():
+            # reset our sort-light status so we don't run infinitely
+            # this will stay off if no items are sorted in the traversal
+            self.set_light_off()
+            # ziggity
+            while self.can_move_right():
+                self.traverse('>')
+            # zaggity
+            while self.can_move_left():
+                self.traverse('<')
 
 
 if __name__ == "__main__":
